@@ -19,7 +19,6 @@
   --accent:#1E6B4F; --accent-soft:#E2EFE7; --on-accent:#FFFFFF;
   --danger:#B23A24; --danger-soft:#F8E9E4;
   --caution:#8A7A2E;
-  --bar:#1E6B4F; --bar-soft:#D7E2D9;
   --focus:#1E6B4F;
   --shadow:0 1px 2px rgba(26,45,35,.05);
 }
@@ -31,7 +30,6 @@
     --accent:#57C296; --accent-soft:#1D3529; --on-accent:#0D1F17;
     --danger:#E8836B; --danger-soft:#3B241D;
     --caution:#C4B25A;
-    --bar:#57C296; --bar-soft:#2A362F;
     --focus:#57C296;
     --shadow:0 1px 2px rgba(0,0,0,.4);
   }
@@ -43,7 +41,6 @@
   --accent:#57C296; --accent-soft:#1D3529; --on-accent:#0D1F17;
   --danger:#E8836B; --danger-soft:#3B241D;
   --caution:#C4B25A;
-  --bar:#57C296; --bar-soft:#2A362F;
   --focus:#57C296;
   --shadow:0 1px 2px rgba(0,0,0,.4);
 }
@@ -81,27 +78,12 @@ h1{font-family:var(--serif);font-size:clamp(28px,5.6vw,42px);line-height:1.2;fon
 }
 .crit .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .crit .v{font-weight:500;font-variant-numeric:tabular-nums}
-.crit li.neg .v{color:var(--danger);text-decoration:line-through;text-decoration-thickness:1px}
 
 /* ---------- sections ---------- */
 .sect{padding:40px 0 0}
 .sect-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:18px}
 h2{font-family:var(--serif);font-size:22px;font-weight:400}
 .sect-note{font-size:13px;color:var(--muted);font-weight:300}
-
-/* ---------- funnel ---------- */
-.funnel{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(124px,1fr));
-  gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden;
-}
-.fstep{background:var(--surface);padding:13px 14px 15px}
-.fstep .n{font-family:var(--mono);font-size:21px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.1;display:block}
-.fstep .l{display:block;margin-top:5px;font-size:11.5px;line-height:1.45;color:var(--muted)}
-.fstep.last{background:var(--accent-soft)}
-.fstep.last .n{color:var(--accent)}
-.fstep.last .l{color:var(--ink-2)}
-.fbar{height:3px;margin-top:9px;background:var(--bar-soft);border-radius:2px}
-.fstep.last .fbar{background:var(--bar)}
 
 /* ---------- controls ---------- */
 .controls{
@@ -196,7 +178,6 @@ td.dim{color:var(--muted)}
 .note li{margin-top:5px}
 .note li:first-child{margin-top:0}
 .note b{font-weight:500;color:var(--ink)}
-.excl{font-family:var(--mono);font-size:12px}
 
 footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--rule);font-size:12px;color:var(--muted);font-weight:300;display:flex;flex-wrap:wrap;gap:6px 18px}
 footer span{font-family:var(--mono);font-size:11.5px}
@@ -214,32 +195,14 @@ footer span{font-family:var(--mono);font-size:11.5px}
 <header class="top">
   <p class="eyebrow">답십리역 출발 · 2026.10.17 토 → 10.18 일 · 1박 2인</p>
   <h1>답십리발 펜션 보드</h1>
-  <p class="lede">네이버 숙박에서 수도권 근교 <b>23개 지역 2,290곳</b>을 훑어, 그날 그 방이 실제로 비어 있고 <b>개별바베큐</b>가 딸린 2인 객실만 남겼습니다. 소요시간은 네이버 길찾기 실측값입니다.</p>
+  <p class="lede">네이버 숙박에서 수도권 근교 <b>23개 지역 2,290곳</b>을 훑어, 그날 그 방이 실제로 비어 있고 <b>개별바베큐</b>가 딸린 2인 객실만 남겼습니다. 객실 사진을 일일이 보고 인테리어가 낡은 곳은 뺐습니다. 소요시간은 네이버 길찾기 실측값입니다.</p>
   <ul class="crit">
     <li><span class="k">날짜</span><span class="v">10.17(토)–18(일)</span></li>
     <li><span class="k">인원</span><span class="v">2인</span></li>
-    <li><span class="k">1박</span><span class="v">10–20만원</span></li>
     <li><span class="k">필수</span><span class="v">개별바베큐</span></li>
     <li><span class="k">차량</span><span class="v">90분 이내</span></li>
-    <li class="neg"><span class="k">제외</span><span class="v">애견동반</span></li>
-    <li class="neg"><span class="k">제외</span><span class="v">풀빌라</span></li>
   </ul>
 </header>
-
-<section class="sect">
-  <div class="sect-head">
-    <h2>걸러낸 과정</h2>
-    <p class="sect-note">지역당 인기순 상위 300곳까지 수집 — 전수 조사는 아닙니다</p>
-  </div>
-  <div class="funnel">
-    <div class="fstep"><span class="n">2,290</span><span class="l">23개 지역 수집<br>(중복 제거)</span><div class="fbar" style="width:100%"></div></div>
-    <div class="fstep"><span class="n">682</span><span class="l">개별바베큐 ·<br>가격 · 태그 필터</span><div class="fbar" style="width:46%"></div></div>
-    <div class="fstep"><span class="n">140</span><span class="l">직선 58km 이내<br>· 리뷰 60건↑</span><div class="fbar" style="width:26%"></div></div>
-    <div class="fstep"><span class="n">27</span><span class="l">길찾기 실측<br>대상</span><div class="fbar" style="width:15%"></div></div>
-    <div class="fstep"><span class="n">22</span><span class="l">객실 단위<br>예약 가능 확인</span><div class="fbar" style="width:10%"></div></div>
-    <div class="fstep last"><span class="n">20</span><span class="l">최종 후보<br>약 85개 객실</span><div class="fbar" style="width:9%"></div></div>
-  </div>
-</section>
 
 <section class="sect">
   <div class="sect-head">
@@ -283,15 +246,13 @@ footer span{font-family:var(--mono);font-size:11.5px}
   </div>
   <div class="scroller">
     <table>
-      <caption>7곳에서 평일 요금이 최대 35% 낮게 나왔고, 토요일끼리는 값이 일치합니다. 스테이아모만 세 날짜가 같은데, 요일 구분 없는 단일 요금제이기 때문입니다. 곤지암 길벗이 10/24에 예약불가로 뜨는 것은 재고까지 날짜별로 반영된다는 뜻입니다.</caption>
+      <caption>5곳에서 평일 요금이 최대 35% 낮게 나왔고, 토요일끼리는 값이 일치합니다. 스테이아모만 세 날짜가 같은데, 요일 구분 없는 단일 요금제이기 때문입니다.</caption>
       <thead>
         <tr><th>펜션 (객실)</th><th style="text-align:right">10/17 토</th><th style="text-align:right">10/20 화</th><th style="text-align:right">10/24 토</th></tr>
       </thead>
       <tbody>
         <tr><td>뉴힐링스파 <span class="cap">Room 아베끄</span></td><td class="num hit">189,000</td><td class="num dim">109,000</td><td class="num">189,000</td></tr>
         <tr><td>Star Stay <span class="cap">북두칠성</span></td><td class="num hit">100,000</td><td class="num dim">70,000</td><td class="num">100,000</td></tr>
-        <tr><td>별장펜션 <span class="cap">107호</span></td><td class="num hit">130,000</td><td class="num dim">110,000</td><td class="num">130,000</td></tr>
-        <tr><td>곤지암 길벗 <span class="cap">A1</span></td><td class="num hit">190,000</td><td class="num dim">130,000</td><td class="num dim">예약불가</td></tr>
         <tr><td>가평 한울터 <span class="cap">꽃가람</span></td><td class="num hit">100,000</td><td class="num dim">65,000</td><td class="num">100,000</td></tr>
         <tr><td>남양주 코지스테이 <span class="cap">A 201</span></td><td class="num hit">169,000</td><td class="num dim">109,000</td><td class="num">169,000</td></tr>
         <tr><td>가평 잰트리 <span class="cap">로즈독채</span></td><td class="num hit">129,000</td><td class="num dim">79,000</td><td class="num">129,000</td></tr>
@@ -318,28 +279,29 @@ footer span{font-family:var(--mono);font-size:11.5px}
     <div class="note">
       <h3><span class="badge v">검증</span>부대비용은 별도</h3>
       <ul>
-        <li>바베큐 숯+그릴 <b>2인 2만원</b> 안팎 현장결제 — 뉴힐링·트라페지움 확인</li>
-        <li>초원펜션은 야외 2인 15,000원 / 실내 로스터 10,000원</li>
-        <li>뉴힐링은 제트스파 별도 50,000원</li>
+        <li>바베큐 숯+그릴 <b>2인 2만원</b> 안팎 현장결제 — 뉴힐링스파 확인</li>
+        <li>뉴힐링스파는 제트스파 별도 50,000원</li>
         <li>기준인원 초과 시 1인당 2만원대 추가</li>
       </ul>
     </div>
 
     <div class="note">
       <h3><span class="badge v">검증</span>애견동반 거르기</h3>
-      <p>네이버 <b>반려동물 태그</b>와 펜션 시설 안내문 양쪽으로 걸렀습니다. 남양주 코지스테이("모든 반려동물의 출입은 엄격히 금지")와 초원펜션("반려(애완)동물 동반 및 입실 불가")은 전면 금지가 명시돼 있습니다.</p>
+      <p>네이버 <b>반려동물 태그</b>와 펜션 시설 안내문 양쪽으로 걸렀습니다. 남양주 코지스테이는 "모든 반려동물의 출입은 엄격히 금지"라고 안내문에 전면 금지가 명시돼 있습니다.</p>
     </div>
 
     <div class="note">
       <h3><span class="badge u">미확인</span>풀빌라 판정 기준</h3>
-      <p>네이버 <b>풀빌라 태그와 상호</b>만으로 걸렀습니다. 공용 야외수영장을 갖춘 곳(남양주 코지스테이, 트라페지움, 한울터, 잰트리 등)은 풀빌라와 다르다고 보고 남겼습니다. 수영장 자체를 피하고 싶다면 이 넷을 빼면 됩니다.</p>
+      <p>네이버 <b>풀빌라 태그와 상호</b>만으로 걸렀습니다. 공용 야외수영장을 갖춘 곳(남양주 코지스테이, 가평 한울터, 가평 잰트리)은 풀빌라와 다르다고 보고 남겼습니다. 수영장 자체를 피하고 싶다면 이 셋을 빼면 됩니다.</p>
     </div>
 
     <div class="note">
       <h3>걸러낸 곳과 이유</h3>
-      <ul class="excl">
-        <li><b>더스틸 · 블라썸펜션</b> — 반려동물 입실 가능 객실 운영 (블라썸은 상호에 '풀빌라')</li>
-        <li><b>와우캠프 · 서운동산 · 써니힐 · 더케이플러스 · 더모스트</b> — 10/17~18에 2인 개별바베큐 객실 예약 불가</li>
+      <ul>
+        <li><b>인테리어</b> — 초원펜션 · 에버리움 · 하루펜션 · 세아리조트 · 피오레 · 트라페지움 · 블루베리힐 · 별장펜션 · 나르샤의정원 · 에피소드706. 객실 사진에서 원색 벽지, 체리색 마루, 꽃무늬, 낡은 주방이 보여 뺐습니다.</li>
+        <li><b>통나무방</b> — 곤지암 길벗 · 솔모닝펜션. 벽 전체가 편백·소나무 판재라 취향에서 벗어납니다. 길벗은 평점 4.95로 가장 높았습니다.</li>
+        <li><b>반려동물</b> — 더스틸 · 블라썸펜션. 반려동물 입실 가능 객실을 운영합니다.</li>
+        <li><b>예약 불가</b> — 와우캠프 · 서운동산 · 써니힐 · 더케이플러스 · 더모스트. 10/17~18에 2인 개별바베큐 객실이 없습니다.</li>
       </ul>
     </div>
 
@@ -359,26 +321,14 @@ const SCALE = 100;   // 막대 전체 폭이 나타내는 분
 const LIMIT = 90;    // 조건상의 한도선 위치
 
 const D = [
- {n:"초원펜션",loc:"포천 소흘",room:"C동 302(스파) 2층",std:2,max:4,p:170000,t:54,t2:76,km:46,sc:null,rv:210,id:"38419825"},
- {n:"에버리움펜션",loc:"용인 포곡",room:"토파즈2 · 온돌룸2층",std:2,max:2,p:120000,t:58,t2:65,km:45,sc:null,rv:271,id:"35719832"},
  {n:"프로방스빌리지",loc:"포천 소흘",room:"그린하우스 1호",std:2,max:4,p:120000,t:60,t2:82,km:49,sc:null,rv:325,id:"1090010282"},
- {n:"세아리조트",loc:"동두천",room:"101호",std:2,max:4,p:135000,t:61,t2:83,km:54,sc:null,rv:173,id:"1568005741"},
- {n:"하루펜션",loc:"용인 포곡",room:"바나나나무",std:2,max:3,p:130000,t:64,t2:69,km:51,sc:null,rv:439,id:"20656238"},
- {n:"곤지암 펜션 길벗",loc:"광주 도척",room:"루프탑BBQ 편백나무 원룸 A1·a3",std:2,max:4,p:190000,t:65,t2:86,km:49,sc:4.95,rv:340,id:"1114321977",pick:"퀄리티"},
  {n:"스테이아모",loc:"광주 퇴촌",room:"스테이아모B · 독채",std:2,max:2,p:150000,t:67,t2:76,km:44,sc:4.88,rv:60,id:"1161744931",pick:"균형"},
  {n:"뉴힐링스파펜션",loc:"가평 청평",room:"Room 아베끄 (리버뷰 · 사계절 개별BBQ)",std:2,max:2,p:189000,t:67,t2:62,km:49,sc:4.45,rv:324,id:"90702324"},
  {n:"Star Stay",loc:"양평 서종",room:"북두칠성",std:2,max:3,p:100000,t:68,t2:64,km:46,sc:4.88,rv:414,id:"1685244044",pick:"가성비"},
- {n:"별장펜션 & BBQ FOOD",loc:"양주 장흥",room:"106·107호 개별바베큐",std:2,max:2,p:130000,t:68,t2:83,km:37,sc:4.75,rv:646,id:"18315898"},
  {n:"남양주 코지스테이",loc:"남양주 수동",room:"A201·202·301·302 (스파 · 개별바베큐)",std:2,max:4,p:169000,t:71,t2:76,km:43,sc:null,rv:542,id:"38460128"},
- {n:"피오레 스파 펜션",loc:"양평 서종",room:"북까페 · 캐릭터",std:2,max:4,p:170000,t:71,t2:85,km:45,sc:null,rv:173,id:"13326712"},
- {n:"펜션봄봄",loc:"가평 상면",room:"101~103호",std:2,max:2,p:199000,t:79,t2:85,km:61,sc:4.98,rv:630,id:"1110407053"},
- {n:"트라페지움펜션",loc:"가평 상면",room:"베가 · 시리우스",std:2,max:2,p:120000,t:81,t2:78,km:60,sc:4.91,rv:122,id:"12995641"},
- {n:"나르샤의정원펜션",loc:"가평 상면",room:"더트리 · 핑크프린세스 (스파 · 독채)",std:2,max:4,p:189000,t:81,t2:79,km:60,sc:null,rv:973,id:"21888921"},
+ {n:"펜션봄봄",loc:"가평 상면",room:"101~103호",std:2,max:2,p:199000,t:79,t2:85,km:61,sc:4.98,rv:630,id:"1110407053",pick:"퀄리티"},
  {n:"가평 잰트리 독채펜션",loc:"가평 상면",room:"로즈 · 로젤 · 루루 · 라인 독채 (월풀스파)",std:2,max:4,p:129000,t:85,t2:83,km:62,sc:4.83,rv:106,id:"33028374"},
- {n:"가평 한울터 펜션",loc:"가평 상면",room:"꽃가람 · 비나리 · 그린내",std:2,max:2,p:100000,t:86,t2:84,km:62,sc:4.45,rv:145,id:"20299480"},
- {n:"가평블루베리힐",loc:"가평 상면",room:"블루하나 · 베리하나",std:2,max:2,p:100000,t:86,t2:91,km:54,sc:4.73,rv:71,id:"20530198"},
- {n:"에피소드706",loc:"양평 용문",room:"에피소드1",std:2,max:3,p:160000,t:87,t2:88,km:66,sc:4.94,rv:64,id:"1993314742"},
- {n:"솔모닝펜션 & 글램핑",loc:"가평 상면",room:"201~203호",std:2,max:2,p:169000,t:90,t2:83,km:64,sc:4.86,rv:120,id:"1030209261"}
+ {n:"가평 한울터 펜션",loc:"가평 상면",room:"꽃가람 · 비나리 · 그린내",std:2,max:2,p:100000,t:86,t2:84,km:62,sc:4.45,rv:145,id:"20299480"}
 ];
 
 const won = v => v.toLocaleString("ko-KR");
