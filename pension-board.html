@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>답십리발 펜션 보드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=Song+Myung&display=swap">
+<style>
+:root{
+  --sans:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+  --serif:"Song Myung","Nanum Myeongjo",'Apple SD Gothic Neo',"Noto Serif KR",serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,"IBM Plex Sans KR","Apple SD Gothic Neo",monospace;
+  --ground:#F3F6F2; --surface:#FFFFFF; --surface-2:#E9EEE8;
+  --ink:#1A231D; --ink-2:#4E5D54; --muted:#5B6A60; --faint:#8A9990;
+  --rule:#E0E7DF; --rule-soft:#EDF1EC;
+  --accent:#1E6B4F; --accent-soft:#E2EFE7; --on-accent:#FFFFFF;
+  --danger:#B23A24; --danger-soft:#F8E9E4;
+  --caution:#8A7A2E;
+  --bar:#1E6B4F; --bar-soft:#D7E2D9;
+  --focus:#1E6B4F;
+  --shadow:0 1px 2px rgba(26,45,35,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#121915; --surface:#1A231E; --surface-2:#232E28;
+    --ink:#E7EDE7; --ink-2:#C2CEC5; --muted:#98A99E; --faint:#74867B;
+    --rule:#2A362F; --rule-soft:#222C26;
+    --accent:#57C296; --accent-soft:#1D3529; --on-accent:#0D1F17;
+    --danger:#E8836B; --danger-soft:#3B241D;
+    --caution:#C4B25A;
+    --bar:#57C296; --bar-soft:#2A362F;
+    --focus:#57C296;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#121915; --surface:#1A231E; --surface-2:#232E28;
+  --ink:#E7EDE7; --ink-2:#C2CEC5; --muted:#98A99E; --faint:#74867B;
+  --rule:#2A362F; --rule-soft:#222C26;
+  --accent:#57C296; --accent-soft:#1D3529; --on-accent:#0D1F17;
+  --danger:#E8836B; --danger-soft:#3B241D;
+  --caution:#C4B25A;
+  --bar:#57C296; --bar-soft:#2A362F;
+  --focus:#57C296;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--sans); font-weight:400; font-size:15px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px 88px}
+a{color:inherit}
+img{max-width:100%}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+h1,h2,h3{margin:0;text-wrap:balance}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* ---------- masthead ---------- */
+.back{display:inline-block;margin-top:26px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--accent)}
+header.top{padding:18px 0 26px;border-bottom:1px solid var(--rule)}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);margin:0 0 12px;font-weight:500;
+}
+h1{font-family:var(--serif);font-size:clamp(28px,5.6vw,42px);line-height:1.2;font-weight:400}
+.lede{margin:14px 0 0;max-width:62ch;color:var(--ink-2);font-size:14.5px;font-weight:300}
+.lede b{font-weight:500;color:var(--ink)}
+
+.crit{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0;padding:0}
+.crit li{
+  list-style:none;display:flex;align-items:baseline;gap:7px;
+  background:var(--surface);border:1px solid var(--rule);border-radius:3px;
+  padding:6px 11px;font-size:13px;
+}
+.crit .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.crit .v{font-weight:500;font-variant-numeric:tabular-nums}
+.crit li.neg .v{color:var(--danger);text-decoration:line-through;text-decoration-thickness:1px}
+
+/* ---------- sections ---------- */
+.sect{padding:40px 0 0}
+.sect-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+h2{font-family:var(--serif);font-size:22px;font-weight:400}
+.sect-note{font-size:13px;color:var(--muted);font-weight:300}
+
+/* ---------- funnel ---------- */
+.funnel{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(124px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden;
+}
+.fstep{background:var(--surface);padding:13px 14px 15px}
+.fstep .n{font-family:var(--mono);font-size:21px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.1;display:block}
+.fstep .l{display:block;margin-top:5px;font-size:11.5px;line-height:1.45;color:var(--muted)}
+.fstep.last{background:var(--accent-soft)}
+.fstep.last .n{color:var(--accent)}
+.fstep.last .l{color:var(--ink-2)}
+.fbar{height:3px;margin-top:9px;background:var(--bar-soft);border-radius:2px}
+.fstep.last .fbar{background:var(--bar)}
+
+/* ---------- controls ---------- */
+.controls{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:20;
+  background:var(--ground);padding:12px 0;border-bottom:1px solid var(--rule);
+}
+.ctl-row{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.ctl-grp{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.ctl-lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+button.chip{
+  font-family:inherit;font-size:12.5px;color:var(--ink-2);
+  background:var(--surface);border:1px solid var(--rule);border-radius:999px;
+  padding:4px 12px;cursor:pointer;transition:background .12s,border-color .12s,color .12s;
+}
+button.chip:hover{border-color:var(--faint)}
+button.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:500}
+.count{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* ---------- list ---------- */
+.colhead{
+  display:grid;grid-template-columns:1fr 104px 164px 84px;gap:16px;
+  padding:14px 2px 8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--rule);
+}
+.colhead span:nth-child(2),.colhead span:nth-child(4){text-align:right}
+.colhead .sub{text-transform:none;letter-spacing:0;color:var(--faint)}
+.list{display:flex;flex-direction:column}
+.row{
+  display:grid;grid-template-columns:1fr 104px 164px 84px;gap:16px;
+  align-items:start;padding:16px 2px;border-bottom:1px solid var(--rule);
+}
+.row.pick{
+  background:linear-gradient(90deg,var(--accent-soft),transparent 62%);
+  border-left:2px solid var(--accent);padding-left:12px;margin-left:-14px;
+}
+.nm{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px}
+.nm a{font-size:16px;font-weight:600;text-decoration:none;text-underline-offset:3px}
+.nm a:hover{text-decoration:underline}
+.loc{font-size:12.5px;color:var(--muted)}
+.tagpick{
+  font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--accent);border:1px solid var(--accent);border-radius:2px;padding:1px 5px;font-weight:500;
+}
+.room{margin:5px 0 0;font-size:12.5px;color:var(--ink-2);font-weight:300;line-height:1.5}
+.cap{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+.price{text-align:right;font-family:var(--mono);font-size:16px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.3}
+.price small{display:block;font-size:10.5px;color:var(--muted);font-weight:400;margin-top:2px}
+.time .tnum{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.time .trange{font-size:10.5px;color:var(--muted)}
+.track{position:relative;height:6px;margin-top:6px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+.fill{position:absolute;inset:0 auto 0 0;border-radius:3px}
+.fill.ok{background:var(--accent)}
+.fill.mid{background:var(--caution)}
+.fill.warn{background:var(--danger)}
+.limit{position:absolute;top:0;bottom:0;width:1px;background:var(--ink);opacity:.5}
+.rate{text-align:right;line-height:1.35}
+.rate .sc{font-family:var(--mono);font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
+.rate .sc.none{color:var(--muted);font-weight:400}
+.rate .rv{display:block;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+@media (max-width:720px){
+  .wrap{padding-left:16px;padding-right:16px}
+  .colhead{display:none}
+  .row{grid-template-columns:1fr auto;gap:10px 14px;padding-block:18px}
+  .row.pick{margin-left:-12px;padding-left:10px}
+  .nm-cell{grid-column:1/-1}
+  .price{text-align:left;grid-column:1;order:2}
+  .rate{text-align:right;grid-column:2;order:3}
+  .time{grid-column:1/-1;order:4}
+}
+
+/* ---------- proof table ---------- */
+.scroller{overflow-x:auto;border:1px solid var(--rule);border-radius:3px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13px}
+caption{caption-side:bottom;text-align:left;padding:10px 14px;font-size:12px;color:var(--muted);font-weight:300;line-height:1.6}
+th,td{padding:9px 14px;text-align:left;border-bottom:1px solid var(--rule)}
+thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;background:var(--surface-2)}
+tbody tr:last-child td{border-bottom:none}
+td.num{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+td.hit{color:var(--accent);font-weight:500}
+td.dim{color:var(--muted)}
+
+/* ---------- notes ---------- */
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:16px}
+.note{background:var(--surface);border:1px solid var(--rule);border-radius:3px;padding:15px 16px 17px}
+.note h3{font-size:13px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.badge{font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;border-radius:2px;padding:2px 5px;font-weight:500}
+.badge.v{background:var(--accent-soft);color:var(--accent)}
+.badge.u{background:var(--danger-soft);color:var(--danger)}
+.note p,.note ul{margin:0;font-size:13px;color:var(--ink-2);font-weight:300;line-height:1.62}
+.note ul{padding-left:17px}
+.note li{margin-top:5px}
+.note li:first-child{margin-top:0}
+.note b{font-weight:500;color:var(--ink)}
+.excl{font-family:var(--mono);font-size:12px}
+
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--rule);font-size:12px;color:var(--muted);font-weight:300;display:flex;flex-wrap:wrap;gap:6px 18px}
+footer span{font-family:var(--mono);font-size:11.5px}
+
+@media (prefers-reduced-motion: reduce){
+  *{transition:none !important;animation:none !important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<a class="back" href="index.html">← 목록으로</a>
+
+<header class="top">
+  <p class="eyebrow">답십리역 출발 · 2026.10.17 토 → 10.18 일 · 1박 2인</p>
+  <h1>답십리발 펜션 보드</h1>
+  <p class="lede">네이버 숙박에서 수도권 근교 <b>23개 지역 2,290곳</b>을 훑어, 그날 그 방이 실제로 비어 있고 <b>개별바베큐</b>가 딸린 2인 객실만 남겼습니다. 소요시간은 네이버 길찾기 실측값입니다.</p>
+  <ul class="crit">
+    <li><span class="k">날짜</span><span class="v">10.17(토)–18(일)</span></li>
+    <li><span class="k">인원</span><span class="v">2인</span></li>
+    <li><span class="k">1박</span><span class="v">10–20만원</span></li>
+    <li><span class="k">필수</span><span class="v">개별바베큐</span></li>
+    <li><span class="k">차량</span><span class="v">90분 이내</span></li>
+    <li class="neg"><span class="k">제외</span><span class="v">애견동반</span></li>
+    <li class="neg"><span class="k">제외</span><span class="v">풀빌라</span></li>
+  </ul>
+</header>
+
+<section class="sect">
+  <div class="sect-head">
+    <h2>걸러낸 과정</h2>
+    <p class="sect-note">지역당 인기순 상위 300곳까지 수집 — 전수 조사는 아닙니다</p>
+  </div>
+  <div class="funnel">
+    <div class="fstep"><span class="n">2,290</span><span class="l">23개 지역 수집<br>(중복 제거)</span><div class="fbar" style="width:100%"></div></div>
+    <div class="fstep"><span class="n">682</span><span class="l">개별바베큐 ·<br>가격 · 태그 필터</span><div class="fbar" style="width:46%"></div></div>
+    <div class="fstep"><span class="n">140</span><span class="l">직선 58km 이내<br>· 리뷰 60건↑</span><div class="fbar" style="width:26%"></div></div>
+    <div class="fstep"><span class="n">27</span><span class="l">길찾기 실측<br>대상</span><div class="fbar" style="width:15%"></div></div>
+    <div class="fstep"><span class="n">22</span><span class="l">객실 단위<br>예약 가능 확인</span><div class="fbar" style="width:10%"></div></div>
+    <div class="fstep last"><span class="n">20</span><span class="l">최종 후보<br>약 85개 객실</span><div class="fbar" style="width:9%"></div></div>
+  </div>
+</section>
+
+<section class="sect">
+  <div class="sect-head">
+    <h2>후보 목록</h2>
+    <p class="sect-note">가격은 10/17 하루치 숙박비 · 부대비용 별도</p>
+  </div>
+
+  <div class="controls">
+    <div class="ctl-row">
+      <div class="ctl-grp">
+        <span class="ctl-lab">정렬</span>
+        <button class="chip" type="button" data-sort="time" aria-pressed="true">소요시간</button>
+        <button class="chip" type="button" data-sort="price" aria-pressed="false">가격</button>
+        <button class="chip" type="button" data-sort="score" aria-pressed="false">평점</button>
+        <button class="chip" type="button" data-sort="rev" aria-pressed="false">리뷰수</button>
+      </div>
+      <div class="ctl-grp">
+        <span class="ctl-lab">추리기</span>
+        <button class="chip" type="button" data-filt="t70" aria-pressed="false">70분 이내</button>
+        <button class="chip" type="button" data-filt="p150" aria-pressed="false">15만 이하</button>
+        <button class="chip" type="button" data-filt="duo" aria-pressed="false">2인 전용</button>
+        <button class="chip" type="button" data-filt="top" aria-pressed="false">평점 4.8+</button>
+      </div>
+      <output class="count" id="count"></output>
+    </div>
+  </div>
+
+  <div class="colhead">
+    <span>펜션 · 객실</span>
+    <span>1박</span>
+    <span>답십리역에서 차량 <span class="sub">— 선이 90분</span></span>
+    <span>평점</span>
+  </div>
+  <div class="list" id="list"></div>
+</section>
+
+<section class="sect">
+  <div class="sect-head">
+    <h2>가격이 그날 기준인지 확인</h2>
+    <p class="sect-note">같은 객실을 날짜만 바꿔 조회한 대조 결과</p>
+  </div>
+  <div class="scroller">
+    <table>
+      <caption>7곳에서 평일 요금이 최대 35% 낮게 나왔고, 토요일끼리는 값이 일치합니다. 스테이아모만 세 날짜가 같은데, 요일 구분 없는 단일 요금제이기 때문입니다. 곤지암 길벗이 10/24에 예약불가로 뜨는 것은 재고까지 날짜별로 반영된다는 뜻입니다.</caption>
+      <thead>
+        <tr><th>펜션 (객실)</th><th style="text-align:right">10/17 토</th><th style="text-align:right">10/20 화</th><th style="text-align:right">10/24 토</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>뉴힐링스파 <span class="cap">Room 아베끄</span></td><td class="num hit">189,000</td><td class="num dim">109,000</td><td class="num">189,000</td></tr>
+        <tr><td>Star Stay <span class="cap">북두칠성</span></td><td class="num hit">100,000</td><td class="num dim">70,000</td><td class="num">100,000</td></tr>
+        <tr><td>별장펜션 <span class="cap">107호</span></td><td class="num hit">130,000</td><td class="num dim">110,000</td><td class="num">130,000</td></tr>
+        <tr><td>곤지암 길벗 <span class="cap">A1</span></td><td class="num hit">190,000</td><td class="num dim">130,000</td><td class="num dim">예약불가</td></tr>
+        <tr><td>가평 한울터 <span class="cap">꽃가람</span></td><td class="num hit">100,000</td><td class="num dim">65,000</td><td class="num">100,000</td></tr>
+        <tr><td>남양주 코지스테이 <span class="cap">A 201</span></td><td class="num hit">169,000</td><td class="num dim">109,000</td><td class="num">169,000</td></tr>
+        <tr><td>가평 잰트리 <span class="cap">로즈독채</span></td><td class="num hit">129,000</td><td class="num dim">79,000</td><td class="num">129,000</td></tr>
+        <tr><td>스테이아모 <span class="cap">스테이아모B</span></td><td class="num hit">150,000</td><td class="num">150,000</td><td class="num">150,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="sect">
+  <div class="sect-head"><h2>알아둘 것</h2></div>
+  <div class="notes">
+
+    <div class="note">
+      <h3><span class="badge v">검증</span>1박 요금이 맞습니다</h3>
+      <p>뉴힐링스파 Room 아베끄로 확인했습니다. 1박 10/17→18은 <b>189,000</b>, 1박 10/18→19는 109,000, 2박 10/17→19는 <b>109,000~189,000</b>으로 나옵니다. 2박을 걸어도 합산이 아니라 박당 단가 범위가 뜨므로, 위 금액은 그대로 하루치입니다.</p>
+    </div>
+
+    <div class="note">
+      <h3><span class="badge u">추측</span>토요일 정체는 반영 전</h3>
+      <p>소요시간은 <b>2026-09-22(화) 오전 실시간 교통</b> 기준입니다. 10/17은 단풍철 토요일이라 더 걸릴 가능성이 높고, 특히 가평 방면(경춘로·서울양양고속도로)은 표의 80분대가 <b>90분을 넘길 여지</b>가 있습니다. 여유를 두려면 70분대 쪽이 안전합니다.</p>
+    </div>
+
+    <div class="note">
+      <h3><span class="badge v">검증</span>부대비용은 별도</h3>
+      <ul>
+        <li>바베큐 숯+그릴 <b>2인 2만원</b> 안팎 현장결제 — 뉴힐링·트라페지움 확인</li>
+        <li>초원펜션은 야외 2인 15,000원 / 실내 로스터 10,000원</li>
+        <li>뉴힐링은 제트스파 별도 50,000원</li>
+        <li>기준인원 초과 시 1인당 2만원대 추가</li>
+      </ul>
+    </div>
+
+    <div class="note">
+      <h3><span class="badge v">검증</span>애견동반 거르기</h3>
+      <p>네이버 <b>반려동물 태그</b>와 펜션 시설 안내문 양쪽으로 걸렀습니다. 남양주 코지스테이("모든 반려동물의 출입은 엄격히 금지")와 초원펜션("반려(애완)동물 동반 및 입실 불가")은 전면 금지가 명시돼 있습니다.</p>
+    </div>
+
+    <div class="note">
+      <h3><span class="badge u">미확인</span>풀빌라 판정 기준</h3>
+      <p>네이버 <b>풀빌라 태그와 상호</b>만으로 걸렀습니다. 공용 야외수영장을 갖춘 곳(남양주 코지스테이, 트라페지움, 한울터, 잰트리 등)은 풀빌라와 다르다고 보고 남겼습니다. 수영장 자체를 피하고 싶다면 이 넷을 빼면 됩니다.</p>
+    </div>
+
+    <div class="note">
+      <h3>걸러낸 곳과 이유</h3>
+      <ul class="excl">
+        <li><b>더스틸 · 블라썸펜션</b> — 반려동물 입실 가능 객실 운영 (블라썸은 상호에 '풀빌라')</li>
+        <li><b>와우캠프 · 서운동산 · 써니힐 · 더케이플러스 · 더모스트</b> — 10/17~18에 2인 개별바베큐 객실 예약 불가</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <span>조회 2026-09-22</span>
+  <span>출발 답십리역 127.0525, 37.5664</span>
+  <span>출처 네이버 플레이스 · 네이버 지도 길찾기</span>
+</footer>
+
+</div>
+
+<script>
+const SCALE = 100;   // 막대 전체 폭이 나타내는 분
+const LIMIT = 90;    // 조건상의 한도선 위치
+
+const D = [
+ {n:"초원펜션",loc:"포천 소흘",room:"C동 302(스파) 2층",std:2,max:4,p:170000,t:54,t2:76,km:46,sc:null,rv:210,id:"38419825"},
+ {n:"에버리움펜션",loc:"용인 포곡",room:"토파즈2 · 온돌룸2층",std:2,max:2,p:120000,t:58,t2:65,km:45,sc:null,rv:271,id:"35719832"},
+ {n:"프로방스빌리지",loc:"포천 소흘",room:"그린하우스 1호",std:2,max:4,p:120000,t:60,t2:82,km:49,sc:null,rv:325,id:"1090010282"},
+ {n:"세아리조트",loc:"동두천",room:"101호",std:2,max:4,p:135000,t:61,t2:83,km:54,sc:null,rv:173,id:"1568005741"},
+ {n:"하루펜션",loc:"용인 포곡",room:"바나나나무",std:2,max:3,p:130000,t:64,t2:69,km:51,sc:null,rv:439,id:"20656238"},
+ {n:"곤지암 펜션 길벗",loc:"광주 도척",room:"루프탑BBQ 편백나무 원룸 A1·a3",std:2,max:4,p:190000,t:65,t2:86,km:49,sc:4.95,rv:340,id:"1114321977",pick:"퀄리티"},
+ {n:"스테이아모",loc:"광주 퇴촌",room:"스테이아모B · 독채",std:2,max:2,p:150000,t:67,t2:76,km:44,sc:4.88,rv:60,id:"1161744931",pick:"균형"},
+ {n:"뉴힐링스파펜션",loc:"가평 청평",room:"Room 아베끄 (리버뷰 · 사계절 개별BBQ)",std:2,max:2,p:189000,t:67,t2:62,km:49,sc:4.45,rv:324,id:"90702324"},
+ {n:"Star Stay",loc:"양평 서종",room:"북두칠성",std:2,max:3,p:100000,t:68,t2:64,km:46,sc:4.88,rv:414,id:"1685244044",pick:"가성비"},
+ {n:"별장펜션 & BBQ FOOD",loc:"양주 장흥",room:"106·107호 개별바베큐",std:2,max:2,p:130000,t:68,t2:83,km:37,sc:4.75,rv:646,id:"18315898"},
+ {n:"남양주 코지스테이",loc:"남양주 수동",room:"A201·202·301·302 (스파 · 개별바베큐)",std:2,max:4,p:169000,t:71,t2:76,km:43,sc:null,rv:542,id:"38460128"},
+ {n:"피오레 스파 펜션",loc:"양평 서종",room:"북까페 · 캐릭터",std:2,max:4,p:170000,t:71,t2:85,km:45,sc:null,rv:173,id:"13326712"},
+ {n:"펜션봄봄",loc:"가평 상면",room:"101~103호",std:2,max:2,p:199000,t:79,t2:85,km:61,sc:4.98,rv:630,id:"1110407053"},
+ {n:"트라페지움펜션",loc:"가평 상면",room:"베가 · 시리우스",std:2,max:2,p:120000,t:81,t2:78,km:60,sc:4.91,rv:122,id:"12995641"},
+ {n:"나르샤의정원펜션",loc:"가평 상면",room:"더트리 · 핑크프린세스 (스파 · 독채)",std:2,max:4,p:189000,t:81,t2:79,km:60,sc:null,rv:973,id:"21888921"},
+ {n:"가평 잰트리 독채펜션",loc:"가평 상면",room:"로즈 · 로젤 · 루루 · 라인 독채 (월풀스파)",std:2,max:4,p:129000,t:85,t2:83,km:62,sc:4.83,rv:106,id:"33028374"},
+ {n:"가평 한울터 펜션",loc:"가평 상면",room:"꽃가람 · 비나리 · 그린내",std:2,max:2,p:100000,t:86,t2:84,km:62,sc:4.45,rv:145,id:"20299480"},
+ {n:"가평블루베리힐",loc:"가평 상면",room:"블루하나 · 베리하나",std:2,max:2,p:100000,t:86,t2:91,km:54,sc:4.73,rv:71,id:"20530198"},
+ {n:"에피소드706",loc:"양평 용문",room:"에피소드1",std:2,max:3,p:160000,t:87,t2:88,km:66,sc:4.94,rv:64,id:"1993314742"},
+ {n:"솔모닝펜션 & 글램핑",loc:"가평 상면",room:"201~203호",std:2,max:2,p:169000,t:90,t2:83,km:64,sc:4.86,rv:120,id:"1030209261"}
+];
+
+const won = v => v.toLocaleString("ko-KR");
+const grade = t => t <= 70 ? "ok" : (t <= 79 ? "mid" : "warn");
+
+let sort = "time";
+const filt = new Set();
+
+try {
+  const s = localStorage.getItem("pension.sort");
+  if (s && ["time","price","score","rev"].includes(s)) sort = s;
+} catch (e) {}
+
+const listEl = document.getElementById("list");
+const countEl = document.getElementById("count");
+
+function rows() {
+  let r = D.slice();
+  if (filt.has("t70")) r = r.filter(d => d.t <= 70);
+  if (filt.has("p150")) r = r.filter(d => d.p <= 150000);
+  if (filt.has("duo")) r = r.filter(d => d.max === 2);
+  if (filt.has("top")) r = r.filter(d => d.sc !== null && d.sc >= 4.8);
+  const cmp = {
+    time:  (a,b) => a.t - b.t || a.p - b.p,
+    price: (a,b) => a.p - b.p || a.t - b.t,
+    score: (a,b) => (b.sc ?? -1) - (a.sc ?? -1) || b.rv - a.rv,
+    rev:   (a,b) => b.rv - a.rv
+  }[sort];
+  return r.sort(cmp);
+}
+
+function render() {
+  const r = rows();
+  listEl.innerHTML = r.map(d => {
+    const lo = Math.min(d.t, d.t2), hi = Math.max(d.t, d.t2);
+    const pct = Math.min(100, d.t / SCALE * 100);
+    return `<article class="row${d.pick ? " pick" : ""}">
+      <div class="nm-cell">
+        <div class="nm">
+          <a href="https://map.naver.com/p/entry/place/${d.id}" target="_blank" rel="noopener">${d.n}</a>
+          <span class="loc">${d.loc}</span>
+          ${d.pick ? `<span class="tagpick">${d.pick}</span>` : ""}
+        </div>
+        <p class="room">${d.room} <span class="cap">기준 ${d.std}인 / 최대 ${d.max}인</span></p>
+      </div>
+      <div class="price">${won(d.p)}<small>10/17 1박</small></div>
+      <div class="time">
+        <div class="tnum"><span>${d.t}분</span><span class="trange">${lo}–${hi}분 · ${d.km}km</span></div>
+        <div class="track">
+          <div class="fill ${grade(d.t)}" style="width:${pct}%"></div>
+          <div class="limit" style="left:${LIMIT / SCALE * 100}%" title="1시간 30분"></div>
+        </div>
+      </div>
+      <div class="rate">
+        <span class="sc${d.sc === null ? " none" : ""}">${d.sc === null ? "–" : d.sc.toFixed(2)}</span>
+        <span class="rv">리뷰 ${won(d.rv)}</span>
+      </div>
+    </article>`;
+  }).join("");
+  countEl.textContent = r.length === D.length ? `${D.length}곳` : `${r.length} / ${D.length}곳`;
+}
+
+document.querySelectorAll("[data-sort]").forEach(b => {
+  b.addEventListener("click", () => {
+    sort = b.dataset.sort;
+    document.querySelectorAll("[data-sort]").forEach(x =>
+      x.setAttribute("aria-pressed", String(x === b)));
+    try { localStorage.setItem("pension.sort", sort); } catch (e) {}
+    render();
+  });
+});
+
+document.querySelectorAll("[data-filt]").forEach(b => {
+  b.addEventListener("click", () => {
+    const k = b.dataset.filt;
+    if (filt.has(k)) filt.delete(k); else filt.add(k);
+    b.setAttribute("aria-pressed", String(filt.has(k)));
+    render();
+  });
+});
+
+document.querySelectorAll("[data-sort]").forEach(x =>
+  x.setAttribute("aria-pressed", String(x.dataset.sort === sort)));
+render();
+</script>
+</body>
+</html>
