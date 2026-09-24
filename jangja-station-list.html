@@ -49,6 +49,8 @@ body{
   margin:0; background:var(--ground); color:var(--ink);
   font-family:var(--sans); font-weight:400; font-size:15px; line-height:1.6;
   -webkit-font-smoothing:antialiased;
+  /* 한글이 어절 중간에서 끊기지 않게. 끊을 데가 없는 긴 낱말만 예외로 쪼갠다 */
+  word-break:keep-all; overflow-wrap:break-word;
 }
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px 88px}
 a{color:inherit}

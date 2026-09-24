@@ -39,6 +39,8 @@ body{
   font-family:'IBM Plex Sans KR',-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
   font-size:15px; line-height:1.6; letter-spacing:-0.01em;
   padding-bottom:72px;
+  /* 한글이 어절 중간에서 끊기지 않게. 끊을 데가 없는 긴 낱말만 예외로 쪼갠다 */
+  word-break:keep-all; overflow-wrap:break-word;
 }
 .wrap{max-width:720px;margin:0 auto;padding:0 16px}
 

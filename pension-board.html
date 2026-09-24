@@ -50,6 +50,8 @@ body{
   margin:0; background:var(--ground); color:var(--ink);
   font-family:var(--sans); font-weight:400; font-size:15px; line-height:1.6;
   -webkit-font-smoothing:antialiased;
+  /* 한글이 어절 중간에서 끊기지 않게. 끊을 데가 없는 긴 낱말만 예외로 쪼갠다 */
+  word-break:keep-all; overflow-wrap:break-word;
 }
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px 88px}
 a{color:inherit}
@@ -231,10 +233,9 @@ footer span{font-family:var(--mono);font-size:11.5px}
       <div class="ctl-grp">
         <span class="ctl-lab">추리기</span>
         <button class="chip" type="button" data-filt="t70" aria-pressed="false">70분 이내</button>
-        <button class="chip" type="button" data-filt="p150" aria-pressed="false">15만 이하</button>
-        <button class="chip" type="button" data-filt="duo" aria-pressed="false">2인 전용</button>
         <button class="chip" type="button" data-filt="top" aria-pressed="false">평점 4.8+</button>
         <button class="chip" type="button" data-filt="mark" aria-pressed="false">O만</button>
+        <button class="chip" type="button" data-filt="nox" aria-pressed="false">X 제외</button>
       </div>
       <output class="count" id="count"></output>
     </div>
@@ -318,10 +319,9 @@ const countEl = document.getElementById("count");
 function rows() {
   let r = D.slice();
   if (filt.has("t70")) r = r.filter(d => d.t <= 70);
-  if (filt.has("p150")) r = r.filter(d => d.p <= 150000);
-  if (filt.has("duo")) r = r.filter(d => d.max === 2);
   if (filt.has("top")) r = r.filter(d => d.sc !== null && d.sc >= 4.8);
   if (filt.has("mark")) r = r.filter(d => mark[d.id] === "o");
+  if (filt.has("nox")) r = r.filter(d => mark[d.id] !== "x");
   const cmp = {
     time:  (a,b) => a.t - b.t || a.p - b.p,
     price: (a,b) => a.p - b.p || a.t - b.t,
