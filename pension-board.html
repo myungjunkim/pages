@@ -127,6 +127,18 @@ button.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--acc
   font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;
   color:var(--accent);border:1px solid var(--accent);border-radius:2px;padding:1px 5px;font-weight:500;
 }
+button.mark{
+  flex:none;align-self:center;width:24px;height:24px;padding:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:12px;line-height:1;
+  background:var(--surface);border:1px solid var(--rule);border-radius:3px;
+  color:var(--faint);cursor:pointer;
+  transition:background .12s,border-color .12s,color .12s;
+}
+button.mark:hover{border-color:var(--faint)}
+button.mark[data-mark="o"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:500}
+button.mark[data-mark="x"]{background:var(--danger-soft);border-color:var(--danger);color:var(--danger);font-weight:500}
+.row.out{opacity:.45}
 .room{margin:5px 0 0;font-size:12.5px;color:var(--ink-2);font-weight:300;line-height:1.5}
 .cap{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
 .price{text-align:right;font-family:var(--mono);font-size:16px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.3}
@@ -207,7 +219,7 @@ footer span{font-family:var(--mono);font-size:11.5px}
 <section class="sect">
   <div class="sect-head">
     <h2>후보 목록</h2>
-    <p class="sect-note">가격은 10/17 하루치 숙박비 · 부대비용 별도 · 객실 사진을 보고 고른 17곳</p>
+    <p class="sect-note">가격은 10/17 하루치 숙박비 · 부대비용 별도 · 객실 사진을 보고 고른 17곳 · 이름 옆 칸을 누르면 O·X가 매겨지고 이 브라우저에만 남습니다</p>
   </div>
 
   <div class="controls">
@@ -225,6 +237,7 @@ footer span{font-family:var(--mono);font-size:11.5px}
         <button class="chip" type="button" data-filt="p150" aria-pressed="false">15만 이하</button>
         <button class="chip" type="button" data-filt="duo" aria-pressed="false">2인 전용</button>
         <button class="chip" type="button" data-filt="top" aria-pressed="false">평점 4.8+</button>
+        <button class="chip" type="button" data-filt="mark" aria-pressed="false">O만</button>
       </div>
       <output class="count" id="count"></output>
     </div>
@@ -351,6 +364,16 @@ try {
   if (s && ["time","price","score","rev"].includes(s)) sort = s;
 } catch (e) {}
 
+// 펜션별 O/X 판정. 키는 D의 id(네이버 플레이스 번호)라 목록이 바뀌어도 남는다.
+const MARKKEY = "pension.mark";
+const NEXTMARK = {"":"o", o:"x", x:""};
+const GLYPH = {"":"", o:"○", x:"✕"};
+const MARKLAB = {"":"미정", o:"O", x:"X"};
+
+let mark = {};
+try { mark = JSON.parse(localStorage.getItem(MARKKEY)) || {}; } catch (e) { mark = {}; }
+function saveMark(){ try { localStorage.setItem(MARKKEY, JSON.stringify(mark)); } catch (e) {} }
+
 const listEl = document.getElementById("list");
 const countEl = document.getElementById("count");
 
@@ -360,6 +383,7 @@ function rows() {
   if (filt.has("p150")) r = r.filter(d => d.p <= 150000);
   if (filt.has("duo")) r = r.filter(d => d.max === 2);
   if (filt.has("top")) r = r.filter(d => d.sc !== null && d.sc >= 4.8);
+  if (filt.has("mark")) r = r.filter(d => mark[d.id] === "o");
   const cmp = {
     time:  (a,b) => a.t - b.t || a.p - b.p,
     price: (a,b) => a.p - b.p || a.t - b.t,
@@ -374,9 +398,12 @@ function render() {
   listEl.innerHTML = r.map(d => {
     const lo = Math.min(d.t, d.t2), hi = Math.max(d.t, d.t2);
     const pct = Math.min(100, d.t / SCALE * 100);
-    return `<article class="row${d.pick ? " pick" : ""}">
+    const mk = mark[d.id] || "";
+    return `<article class="row${d.pick ? " pick" : ""}${mk === "x" ? " out" : ""}">
       <div class="nm-cell">
         <div class="nm">
+          <button class="mark" type="button" data-id="${d.id}" data-mark="${mk}"
+            aria-label="${d.n} 판정 ${MARKLAB[mk]}, 누르면 ${MARKLAB[NEXTMARK[mk]]}">${GLYPH[mk]}</button>
           <a href="https://map.naver.com/p/entry/place/${d.id}" target="_blank" rel="noopener">${d.n}</a>
           <span class="loc">${d.loc}</span>
           ${d.pick ? `<span class="tagpick">${d.pick}</span>` : ""}
@@ -417,6 +444,16 @@ document.querySelectorAll("[data-filt]").forEach(b => {
     b.setAttribute("aria-pressed", String(filt.has(k)));
     render();
   });
+});
+
+// 행은 render()마다 다시 그려지므로 버튼별 리스너 대신 목록에 위임한다.
+listEl.addEventListener("click", e => {
+  const b = e.target.closest(".mark");
+  if (!b) return;
+  const next = NEXTMARK[mark[b.dataset.id] || ""];
+  if (next) mark[b.dataset.id] = next; else delete mark[b.dataset.id];
+  saveMark();
+  render();
 });
 
 document.querySelectorAll("[data-sort]").forEach(x =>
