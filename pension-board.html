@@ -188,30 +188,6 @@ textarea.memo-edit{
   .time{grid-column:1/-1;order:4}
 }
 
-/* ---------- proof table ---------- */
-.scroller{overflow-x:auto;border:1px solid var(--rule);border-radius:3px;background:var(--surface)}
-table{border-collapse:collapse;width:100%;min-width:560px;font-size:13px}
-caption{caption-side:bottom;text-align:left;padding:10px 14px;font-size:12px;color:var(--muted);font-weight:300;line-height:1.6}
-th,td{padding:9px 14px;text-align:left;border-bottom:1px solid var(--rule)}
-thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;background:var(--surface-2)}
-tbody tr:last-child td{border-bottom:none}
-td.num{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums}
-td.hit{color:var(--accent);font-weight:500}
-td.dim{color:var(--muted)}
-
-/* ---------- notes ---------- */
-.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:16px}
-.note{background:var(--surface);border:1px solid var(--rule);border-radius:3px;padding:15px 16px 17px}
-.note h3{font-size:13px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:7px}
-.badge{font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;border-radius:2px;padding:2px 5px;font-weight:500}
-.badge.v{background:var(--accent-soft);color:var(--accent)}
-.badge.u{background:var(--danger-soft);color:var(--danger)}
-.note p,.note ul{margin:0;font-size:13px;color:var(--ink-2);font-weight:300;line-height:1.62}
-.note ul{padding-left:17px}
-.note li{margin-top:5px}
-.note li:first-child{margin-top:0}
-.note b{font-weight:500;color:var(--ink)}
-
 footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--rule);font-size:12px;color:var(--muted);font-weight:300;display:flex;flex-wrap:wrap;gap:6px 18px}
 footer span{font-family:var(--mono);font-size:11.5px}
 
@@ -271,75 +247,6 @@ footer span{font-family:var(--mono);font-size:11.5px}
     <span>평점</span>
   </div>
   <div class="list" id="list"></div>
-</section>
-
-<section class="sect">
-  <div class="sect-head">
-    <h2>가격이 그날 기준인지 확인</h2>
-    <p class="sect-note">같은 객실을 날짜만 바꿔 조회한 대조 결과</p>
-  </div>
-  <div class="scroller">
-    <table>
-      <caption>5곳에서 평일 요금이 최대 35% 낮게 나왔고, 토요일끼리는 값이 일치합니다. 스테이아모만 세 날짜가 같은데, 요일 구분 없는 단일 요금제이기 때문입니다.</caption>
-      <thead>
-        <tr><th>펜션 (객실)</th><th style="text-align:right">10/17 토</th><th style="text-align:right">10/20 화</th><th style="text-align:right">10/24 토</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>뉴힐링스파 <span class="cap">Room 아베끄</span></td><td class="num hit">189,000</td><td class="num dim">109,000</td><td class="num">189,000</td></tr>
-        <tr><td>Star Stay <span class="cap">북두칠성</span></td><td class="num hit">100,000</td><td class="num dim">70,000</td><td class="num">100,000</td></tr>
-        <tr><td>가평 한울터 <span class="cap">꽃가람</span></td><td class="num hit">100,000</td><td class="num dim">65,000</td><td class="num">100,000</td></tr>
-        <tr><td>남양주 코지스테이 <span class="cap">A 201</span></td><td class="num hit">169,000</td><td class="num dim">109,000</td><td class="num">169,000</td></tr>
-        <tr><td>가평 잰트리 <span class="cap">로즈독채</span></td><td class="num hit">129,000</td><td class="num dim">79,000</td><td class="num">129,000</td></tr>
-        <tr><td>스테이아모 <span class="cap">스테이아모B</span></td><td class="num hit">150,000</td><td class="num">150,000</td><td class="num">150,000</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<section class="sect">
-  <div class="sect-head"><h2>알아둘 것</h2></div>
-  <div class="notes">
-
-    <div class="note">
-      <h3><span class="badge v">검증</span>1박 요금이 맞습니다</h3>
-      <p>뉴힐링스파 Room 아베끄로 확인했습니다. 1박 10/17→18은 <b>189,000</b>, 1박 10/18→19는 109,000, 2박 10/17→19는 <b>109,000~189,000</b>으로 나옵니다. 2박을 걸어도 합산이 아니라 박당 단가 범위가 뜨므로, 위 금액은 그대로 하루치입니다.</p>
-    </div>
-
-    <div class="note">
-      <h3><span class="badge u">추측</span>토요일 정체는 반영 전</h3>
-      <p>소요시간은 <b>2026-09-22(화) 오전 실시간 교통</b> 기준입니다. 10/17은 단풍철 토요일이라 더 걸릴 가능성이 높고, 특히 가평 방면(경춘로·서울양양고속도로)은 표의 80분대가 <b>90분을 넘길 여지</b>가 있습니다. 여유를 두려면 70분대 쪽이 안전합니다.</p>
-    </div>
-
-    <div class="note">
-      <h3><span class="badge v">검증</span>부대비용은 별도</h3>
-      <ul>
-        <li>바베큐 숯+그릴 <b>2인 2만원</b> 안팎 현장결제 — 뉴힐링스파 확인</li>
-        <li>뉴힐링스파는 제트스파 별도 50,000원</li>
-        <li>기준인원 초과 시 1인당 2만원대 추가</li>
-      </ul>
-    </div>
-
-    <div class="note">
-      <h3><span class="badge v">검증</span>애견동반 거르기</h3>
-      <p>네이버 <b>반려동물 태그</b>와 <b>객실명</b>으로 걸렀습니다. 안내문에 흔히 보이는 "반려동물 입실 가능 펜션 외에 동반 시 입실이 거부될 수 있습니다"는 예약대행사 공통 문구라 근거로 쓰지 않았습니다. 남양주 코지스테이·로드스테이·퇴촌 펀스테이는 전면 금지가 명시돼 있습니다.</p>
-    </div>
-
-    <div class="note">
-      <h3><span class="badge u">미확인</span>풀빌라 판정 기준</h3>
-      <p>네이버 <b>풀빌라 태그와 상호</b>만으로 걸렀습니다. 공용 야외수영장을 갖춘 곳(남양주 코지스테이, 가평 한울터, 가평 잰트리)은 풀빌라와 다르다고 보고 남겼습니다. 수영장 자체를 피하고 싶다면 이 셋을 빼면 됩니다.</p>
-    </div>
-
-    <div class="note">
-      <h3>걸러낸 곳과 이유</h3>
-      <ul>
-        <li><b>인테리어</b> — 초원펜션 · 에버리움 · 하루펜션 · 세아리조트 · 피오레 · 트라페지움 · 블루베리힐 · 별장펜션 · 나르샤의정원 · 에피소드706. 객실 사진에서 원색 벽지, 체리색 마루, 꽃무늬, 낡은 주방이 보여 뺐습니다.</li>
-        <li><b>통나무방</b> — 곤지암 길벗 · 솔모닝펜션. 벽 전체가 편백·소나무 판재라 취향에서 벗어납니다. 길벗은 평점 4.95로 가장 높았습니다.</li>
-        <li><b>반려동물</b> — 블라썸펜션(상호에 '풀빌라'), 힐마레펜션·산천펜션·하늘과바람의호수(객실명에 반려동물 가능 표기).</li>
-        <li><b>예약 불가</b> — 와우캠프 · 서운동산 · 써니힐 · 더케이플러스 · 더모스트. 10/17~18에 2인 개별바베큐 객실이 없습니다.</li>
-      </ul>
-    </div>
-
-  </div>
 </section>
 
 <footer>
