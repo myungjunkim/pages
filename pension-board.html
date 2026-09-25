@@ -164,6 +164,7 @@ textarea.memo-edit{
   background:var(--surface);border:1px solid var(--rule);border-radius:3px;
   padding:7px 9px;resize:vertical;min-height:4.6em;
 }
+.err{margin:12px 0 0;font-size:13px;color:var(--danger)}
 .cap{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
 .price{text-align:right;font-family:var(--mono);font-size:16px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.3}
 .price small{display:block;font-size:10.5px;color:var(--muted);font-weight:400;margin-top:2px}
@@ -219,7 +220,7 @@ footer span{font-family:var(--mono);font-size:11.5px}
 <section class="sect">
   <div class="sect-head">
     <h2>후보 목록</h2>
-    <p class="sect-note">가격은 10/17 하루치 숙박비 · 부대비용 별도 · 객실 사진을 보고 고른 17곳 · 이름 옆 칸을 누르면 O·X가 매겨지고 이 브라우저에만 남습니다</p>
+    <p class="sect-note">가격은 10/17 하루치 숙박비 · 부대비용 별도 · 객실 사진을 보고 고른 17곳 · 이름 옆 칸을 누르면 O·X가 매겨지고 서버에 저장돼 어느 기기에서든 같이 보입니다</p>
   </div>
 
   <div class="controls">
@@ -241,6 +242,8 @@ footer span{font-family:var(--mono);font-size:11.5px}
       <output class="count" id="count"></output>
     </div>
   </div>
+
+  <p class="err" id="err" hidden></p>
 
   <div class="colhead">
     <span>펜션 · 객실</span>
@@ -295,27 +298,69 @@ try {
 } catch (e) {}
 
 // 펜션별 O/X 판정. 키는 D의 id(네이버 플레이스 번호)라 목록이 바뀌어도 남는다.
-const MARKKEY = "pension.mark";
 const NEXTMARK = {"":"o", o:"x", x:""};
 const GLYPH = {"":"", o:"○", x:"✕"};
 const MARKLAB = {"":"미정", o:"O", x:"X"};
 
+// 판정과 비고는 /api/pension에 둔다. 브라우저에 담아두면 누른 그 기기에서만 보여
+// 같이 보거나 기기를 옮길 수가 없었다.
 let mark = {};
-try { mark = JSON.parse(localStorage.getItem(MARKKEY)) || {}; } catch (e) { mark = {}; }
-function saveMark(){ try { localStorage.setItem(MARKKEY, JSON.stringify(mark)); } catch (e) {} }
-
-// 펜션별 비고. mark와 키를 나눠 둔다. 한 객체로 합치면 이미 찍어둔 O/X를 옮겨야 한다.
-const NOTEKEY = "pension.note";
-
 let note = {};
-try { note = JSON.parse(localStorage.getItem(NOTEKEY)) || {}; } catch (e) { note = {}; }
-function saveNote(){ try { localStorage.setItem(NOTEKEY, JSON.stringify(note)); } catch (e) {} }
 
 // 비고는 사용자가 쓴 글이라 HTML 문자열에 그대로 넣으면 해석된다.
 const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
 
 const listEl = document.getElementById("list");
 const countEl = document.getElementById("count");
+const errEl = document.getElementById("err");
+
+const err = msg => { errEl.textContent = msg; errEl.hidden = !msg; };
+
+/** 실패 응답을 사람이 읽을 말로 바꾼다. 401은 세션이 끊긴 것이라 따로 안내한다. */
+async function fail(res, fallback) {
+  if (res.status === 401) { err("로그인이 풀렸습니다. 새로고침한 뒤 다시 들어가세요."); return; }
+  const body = await res.json().catch(() => ({}));
+  err(body.error || fallback);
+}
+
+async function loadMarks() {
+  let res;
+  try {
+    res = await fetch("/api/pension", { headers: { Accept: "application/json" } });
+  } catch (e) {
+    err("판정을 불러오지 못했습니다. 연결을 확인해 주세요.");
+    return;
+  }
+  if (!res.ok) { await fail(res, "판정을 불러오지 못했습니다."); return; }
+  const d = await res.json();
+
+  mark = {}; note = {};
+  for (const r of d.rows) {
+    if (r.mark) mark[r.place_id] = r.mark;
+    if (r.note) note[r.place_id] = r.note;
+  }
+  err("");
+  render();
+}
+
+/**
+ * 한 곳의 판정과 비고를 함께 보낸다. 서버는 받은 값으로 그 행을 통째로 덮어쓰므로
+ * 한쪽만 보내면 나머지 한쪽이 지워진다.
+ */
+async function save(id) {
+  let res;
+  try {
+    res = await fetch("/api/pension", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, mark: mark[id] || "", note: note[id] || "" }),
+    });
+  } catch (e) {
+    err("저장하지 못했습니다. 연결을 확인해 주세요.");
+    return;
+  }
+  if (res.ok) err(""); else await fail(res, "저장하지 못했습니다.");
+}
 
 function rows() {
   let r = D.slice();
@@ -394,8 +439,12 @@ document.querySelectorAll("[data-filt]").forEach(b => {
   });
 });
 
+/** 편집 중에 글자가 바뀌었는지. 열어보기만 하고 닫으면 서버로 보낼 것이 없다. */
+let memoDirty = false;
+
 /** 비고를 편집 상태로 연다. render()를 부르지 않고 그 칸만 바꿔 입력이 끊기지 않게 한다. */
 function openMemo(box) {
+  memoDirty = false;
   const d = D.find(x => x.id === box.dataset.id);
   const cur = note[d.id] || "";
   box.innerHTML = `<textarea class="memo-edit" aria-label="${d.n} 비고"></textarea>`;
@@ -415,33 +464,39 @@ listEl.addEventListener("click", e => {
   if (b) {
     const next = NEXTMARK[mark[b.dataset.id] || ""];
     if (next) mark[b.dataset.id] = next; else delete mark[b.dataset.id];
-    saveMark();
     render();
+    save(b.dataset.id);
     return;
   }
   const opener = e.target.closest(".memo-add, .memo-text");
   if (opener) openMemo(opener.closest(".memo"));
 });
 
-// 목록이 언제 다시 그려질지 알 수 없으므로 한 글자마다 저장해 둔다.
+// 목록이 언제 다시 그려질지 알 수 없으므로 한 글자마다 손안의 값은 맞춰 둔다.
+// 서버로는 칸을 떠날 때 한 번만 보낸다 — 글자마다 보내면 요청이 쏟아진다.
 listEl.addEventListener("input", e => {
   const ta = e.target.closest(".memo-edit");
   if (!ta) return;
   const id = ta.closest(".memo").dataset.id;
   const v = ta.value.trim();
   if (v) note[id] = v; else delete note[id];
-  saveNote();
+  memoDirty = true;
 });
 
 // blur와 달리 focusout은 버블링하므로 위임으로 받을 수 있다.
 listEl.addEventListener("focusout", e => {
   const ta = e.target.closest(".memo-edit");
-  if (ta) closeMemo(ta.closest(".memo"));
+  if (!ta) return;
+  const box = ta.closest(".memo");
+  const changed = memoDirty;
+  closeMemo(box);
+  if (changed) save(box.dataset.id);   // 열어보기만 했으면 보낼 것이 없다
 });
 
 document.querySelectorAll("[data-sort]").forEach(x =>
   x.setAttribute("aria-pressed", String(x.dataset.sort === sort)));
-render();
+render();        // 판정을 기다리지 않고 목록부터 띄운다
+loadMarks();
 </script>
 </body>
 </html>
